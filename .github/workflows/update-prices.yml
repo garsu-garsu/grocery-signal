@@ -16,11 +16,10 @@ jobs:
         with:
           node-version: 22
 
-      - name: KAMIS 시세 받아오기
+      - name: 소매 시세 받아오기
         env:
-          KAMIS_CERT_KEY: ${{ secrets.KAMIS_CERT_KEY }}
-          KAMIS_CERT_ID: ${{ secrets.KAMIS_CERT_ID }}
-        run: node scripts/fetch-kamis.mjs
+          DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
+        run: node scripts/fetch-prices.mjs
 
       # 스크립트가 실패하면 여기까지 안 옵니다 = 기존 파일이 그대로 남아요.
       # 빈 데이터로 덮어써서 "오늘은 품목이 없어요"를 보여주는 것보다 낫습니다.

@@ -10,8 +10,9 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "typecheck": "tsc -b --force",
-    "prices": "node scripts/fetch-kamis.mjs",
+    "prices": "node scripts/fetch-prices.mjs",
     "prices:seed": "node scripts/make-seed.mjs",
+    "prices:items": "node scripts/discover-items.mjs",
     "check:signal": "node --experimental-strip-types scripts/check-signal.ts"
   },
   "dependencies": {
