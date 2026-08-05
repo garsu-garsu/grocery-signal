@@ -1,6 +1,7 @@
-import { Button, Highlight } from "@toss/tds-mobile";
-import { useEffect, useMemo, useRef } from "react";
+import { Button, SegmentedControl } from "@toss/tds-mobile";
+import { useEffect, useMemo, useRef, useState } from "react";
 
+import { CoachMark } from "../../components/CoachMark";
 import { HomeActions } from "../../components/HomeActions";
 import { Card, ScreenLayout } from "../../components/ScreenLayout";
 import type { PriceData, PriceItem } from "../../data/prices";
@@ -9,10 +10,27 @@ import { useOnboarding } from "../../hooks/useOnboarding";
 import { useUnlock } from "../../hooks/useUnlock";
 import { formatKorDate } from "../../lib/kst";
 import { askReviewOnce } from "../../lib/toss";
-import { formatWon, judge, sortByDeal, type Signal } from "../../lib/signal";
+import {
+  BASIS_OPTIONS,
+  basisPct,
+  basisText,
+  formatWon,
+  judge,
+  sortByDeal,
+  type Basis,
+  type Signal,
+} from "../../lib/signal";
 import { palette, signalStyle } from "../../theme";
 
 const FREE_PER_SIDE = 2; // 무료로 보여주는 개수 (사세요 2 + 미루세요 2)
+const BASIS_KEY = "basis";
+
+function savedBasis(): Basis {
+  const saved = localStorage.getItem(BASIS_KEY);
+  return BASIS_OPTIONS.some((o) => o.value === saved)
+    ? (saved as Basis)
+    : "week";
+}
 
 export function HomeScreen({
   data,
@@ -23,8 +41,14 @@ export function HomeScreen({
 }) {
   const { unlocked, unlock } = useUnlock("all-items");
   const { watchThen } = useAdGate();
+  const [basis, setBasis] = useState<Basis>(savedBasis);
 
-  const sorted = sortByDeal(data.items);
+  const changeBasis = (value: string) => {
+    setBasis(value as Basis);
+    localStorage.setItem(BASIS_KEY, value);
+  };
+
+  const sorted = sortByDeal(data.items, basis);
   const buys = sorted.filter((i) => judge(i).signal === "buy");
   const waits = sorted.filter((i) => judge(i).signal === "wait").reverse();
   const mids = sorted.filter((i) => judge(i).signal === "normal");
@@ -54,18 +78,46 @@ export function HomeScreen({
   }, [buys.length, waits.length]);
   const { current, next } = useOnboarding(steps);
   const actionsRef = useRef<HTMLDivElement>(null);
+  const buyRef = useRef<HTMLDivElement>(null);
+  const waitRef = useRef<HTMLDivElement>(null);
 
   // 알림 단계는 화면 아래에 있어서, 먼저 보이게 옮겨 놓고 짚어줘요.
   useEffect(() => {
     if (current === "notify") {
-      actionsRef.current?.scrollIntoView({ block: "center", behavior: "smooth" });
+      actionsRef.current?.scrollIntoView({
+        block: "center",
+        behavior: "smooth",
+      });
     }
   }, [current]);
+
+  // 강조된 카드는 TDS 덮개에 가려 직접 눌리지 않아요. 덮개보다 위에 레이어를 얹는 것도
+  // z-index 싸움이라, 아예 캡처 단계에서 클릭을 먼저 가로채 어디를 눌러도 진행되게 합니다.
+  const firstBuy = buys[0];
+  useEffect(() => {
+    if (current == null) return;
+    const onClick = (event: MouseEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+      next();
+      // 첫 단계에선 짚어준 품목을 실제로 열어 보여줘요 — 말로 설명하는 것보다 빠릅니다.
+      if (current === "buy" && firstBuy != null) onSelect(firstBuy);
+    };
+    window.addEventListener("click", onClick, true);
+    return () => window.removeEventListener("click", onClick, true);
+  }, [current, next, firstBuy, onSelect]);
 
   return (
     <ScreenLayout>
       <header style={{ marginBottom: 20 }}>
-        <h1 style={{ fontSize: 24, fontWeight: 800, color: palette.ink, margin: 0 }}>
+        <h1
+          style={{
+            fontSize: 24,
+            fontWeight: 800,
+            color: palette.ink,
+            margin: 0,
+          }}
+        >
           오늘의 장바구니
         </h1>
         <p style={{ fontSize: 16, color: palette.sub, margin: "6px 0 0" }}>
@@ -88,24 +140,33 @@ export function HomeScreen({
         )}
       </header>
 
+      {/* 무엇과 견줄지 고르는 곳 — 기본은 체감이 가장 빠른 '지난주'예요. */}
+      <div style={{ marginBottom: 4 }}>
+        <SegmentedControl value={basis} onChange={changeBasis}>
+          {BASIS_OPTIONS.map((option) => (
+            <SegmentedControl.Item key={option.value} value={option.value}>
+              {option.label}
+            </SegmentedControl.Item>
+          ))}
+        </SegmentedControl>
+      </div>
+
       <Section signal="buy">
         {buys.length === 0 ? (
           <Empty text="오늘은 특별히 싼 품목이 없어요." />
         ) : (
           (unlocked ? buys : buys.slice(0, FREE_PER_SIDE)).map((item, i) => {
-            const row = <PriceRow item={item} onClick={() => onSelect(item)} />;
+            const row = (
+              <PriceRow
+                item={item}
+                basis={basis}
+                onClick={() => onSelect(item)}
+              />
+            );
             return i === 0 ? (
-              <Highlight
-                key={item.id}
-                open={current === "buy"}
-                padding={6}
-                // 아래엔 다음 카드가 붙어 있어 글씨가 겹쳐요. 위 여백에 올립니다.
-                messageYAlignment="top"
-                message="초록불은 오늘 사면 이득이에요 (눌러서 계속)"
-                onClick={next}
-              >
+              <div key={item.id} ref={buyRef}>
                 {row}
-              </Highlight>
+              </div>
             ) : (
               <div key={item.id}>{row}</div>
             );
@@ -118,18 +179,17 @@ export function HomeScreen({
           <Empty text="오늘은 특별히 비싼 품목이 없어요." />
         ) : (
           (unlocked ? waits : waits.slice(0, FREE_PER_SIDE)).map((item, i) => {
-            const row = <PriceRow item={item} onClick={() => onSelect(item)} />;
+            const row = (
+              <PriceRow
+                item={item}
+                basis={basis}
+                onClick={() => onSelect(item)}
+              />
+            );
             return i === 0 ? (
-              <Highlight
-                key={item.id}
-                open={current === "wait"}
-                padding={6}
-                messageYAlignment="top"
-                message="빨간불은 며칠 뒤에 사는 게 나아요"
-                onClick={next}
-              >
+              <div key={item.id} ref={waitRef}>
                 {row}
-              </Highlight>
+              </div>
             ) : (
               <div key={item.id}>{row}</div>
             );
@@ -140,7 +200,12 @@ export function HomeScreen({
       {(unlocked || freeMids > 0) && mids.length > 0 && (
         <Section signal="normal">
           {(unlocked ? mids : mids.slice(0, freeMids)).map((item) => (
-            <PriceRow key={item.id} item={item} onClick={() => onSelect(item)} />
+            <PriceRow
+              key={item.id}
+              item={item}
+              basis={basis}
+              onClick={() => onSelect(item)}
+            />
           ))}
         </Section>
       )}
@@ -188,20 +253,35 @@ export function HomeScreen({
       )}
 
       <div ref={actionsRef}>
-        <Highlight
-          open={current === "notify"}
-          padding={6}
-          delay={0.4}
-          messageYAlignment="top"
-          message="알림 받으면 잊지 않아요. 시간을 골라 보세요"
-          onClick={next}
-        >
-          <HomeActions />
-        </Highlight>
+        <HomeActions />
       </div>
 
-      <p style={{ fontSize: 13, color: palette.sub, marginTop: 20, lineHeight: 1.6 }}>
-        출처: {data.source} · 전국 평균 소매가라 지역·매장에 따라 다를 수 있어요.
+      <CoachMark
+        targetRef={buyRef}
+        open={current === "buy"}
+        message="초록불은 오늘 사면 이득이에요. 눌러서 자세히 볼까요?"
+      />
+      <CoachMark
+        targetRef={waitRef}
+        open={current === "wait"}
+        message="빨간불은 며칠 뒤에 사는 게 나아요"
+      />
+      <CoachMark
+        targetRef={actionsRef}
+        open={current === "notify"}
+        message="알림 받으면 잊지 않아요. 시간을 골라 보세요"
+      />
+
+      <p
+        style={{
+          fontSize: 13,
+          color: palette.sub,
+          marginTop: 20,
+          lineHeight: 1.6,
+        }}
+      >
+        출처: {data.source} · 전국 평균 소매가라 지역·매장에 따라 다를 수
+        있어요.
         <br />
         주말·공휴일은 직전 영업일 시세를 보여줘요.
       </p>
@@ -233,7 +313,9 @@ function Section({
         <span aria-hidden>{mark}</span>
         {title}
       </h2>
-      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>{children}</div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        {children}
+      </div>
     </section>
   );
 }
@@ -263,9 +345,16 @@ function LockedRow({ item }: { item: PriceItem }) {
             {item.unit}
           </span>
         </div>
-        <div className="skeleton" style={{ width: 116, height: 14, marginTop: 8 }} />
+        <div
+          className="skeleton"
+          style={{ width: 116, height: 14, marginTop: 8 }}
+        />
       </div>
-      <div className="skeleton" style={{ width: 74, height: 24 }} aria-label="가격 잠김" />
+      <div
+        className="skeleton"
+        style={{ width: 74, height: 24 }}
+        aria-label="가격 잠김"
+      />
     </Card>
   );
 }
@@ -278,12 +367,30 @@ function Empty({ text }: { text: string }) {
   );
 }
 
-function PriceRow({ item, onClick }: { item: PriceItem; onClick: () => void }) {
+function PriceRow({
+  item,
+  basis,
+  onClick,
+}: {
+  item: PriceItem;
+  basis: Basis;
+  onClick: () => void;
+}) {
   const v = judge(item);
-  const { color, mark } = signalStyle(v.signal);
+  const { color } = signalStyle(v.signal);
+
+  // 기호·글씨색은 '선택한 기준'의 등락을 따라요.
+  // 신호(초록·빨강)와 기준 비교는 서로 다른 얘기라서, 한 줄에 섞으면
+  // "빨간불인데 싸요" 같은 모순이 생깁니다. 신호는 왼쪽 색띠와 섹션 제목이 맡아요.
+  const pct = basisPct(item, basis);
+  const pctColor = pct < 0 ? palette.down : pct > 0 ? palette.up : palette.flat;
+  const pctMark = pct < 0 ? "▼" : pct > 0 ? "▲" : "—";
 
   return (
-    <Card onClick={onClick} style={{ display: "flex", alignItems: "center", gap: 12 }}>
+    <Card
+      onClick={onClick}
+      style={{ display: "flex", alignItems: "center", gap: 12 }}
+    >
       {/* 왼쪽 색띠 — 목록을 훑을 때 신호가 먼저 눈에 들어와요. */}
       <div
         style={{
@@ -304,11 +411,18 @@ function PriceRow({ item, onClick }: { item: PriceItem; onClick: () => void }) {
           </span>
         </div>
         {/* 색만으로 구분하지 않아요 — 기호와 문장을 함께 둡니다. */}
-        <div style={{ fontSize: 15, color, marginTop: 4, fontWeight: 600 }}>
-          {mark} {v.reason}
+        <div style={{ fontSize: 15, color: pctColor, marginTop: 4, fontWeight: 600 }}>
+          {pctMark} {basisText(item, basis)}
         </div>
       </div>
-      <div style={{ fontSize: 24, fontWeight: 800, color: palette.ink, whiteSpace: "nowrap" }}>
+      <div
+        style={{
+          fontSize: 24,
+          fontWeight: 800,
+          color: palette.ink,
+          whiteSpace: "nowrap",
+        }}
+      >
         {formatWon(item.price)}
         <span style={{ fontSize: 15, fontWeight: 600 }}>원</span>
       </div>

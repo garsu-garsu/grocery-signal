@@ -2,7 +2,7 @@
 import assert from "node:assert/strict";
 
 import type { PriceItem } from "../src/data/prices.ts";
-import { judge, sortByDeal } from "../src/lib/signal.ts";
+import { basisText, judge, sortByDeal } from "../src/lib/signal.ts";
 
 function item(over: Partial<PriceItem>): PriceItem {
   return {
@@ -57,5 +57,27 @@ const sorted = sortByDeal([
   item({ id: "c", price: 1000, normalYear: 1000 }),
 ]);
 assert.deepEqual(sorted.map((i) => i.id), ["b", "c", "a"]);
+
+// 비교 기준을 바꾸면 문구도 그 기준으로 바뀐다
+const mixed = item({ price: 900, prevWeek: 1000, prevMonth: 1200, normalYear: 1800 });
+assert.equal(basisText(mixed, "week"), "지난주보다 10% 싸요");
+assert.equal(basisText(mixed, "month"), "한 달 전보다 25% 싸요");
+assert.equal(basisText(mixed, "normal"), "평년보다 50% 싸요");
+assert.equal(basisText(item({ price: 1000, prevWeek: 1000 }), "week"), "지난주와 비슷해요");
+assert.equal(basisText(item({ price: 1100, prevWeek: 1000 }), "week"), "지난주보다 10% 비싸요");
+
+// 기준이 바뀌면 정렬 순서도 그 기준을 따른다
+const byWeek = sortByDeal(
+  [
+    item({ id: "a", price: 900, prevWeek: 1000, normalYear: 900 }), // 주간 -10%, 평년 0%
+    item({ id: "b", price: 1000, prevWeek: 1000, normalYear: 1200 }), // 주간 0%, 평년 -17%
+  ],
+  "week",
+);
+assert.deepEqual(byWeek.map((i) => i.id), ["a", "b"]);
+assert.deepEqual(sortByDeal(byWeek, "normal").map((i) => i.id), ["b", "a"]);
+
+// 기준값이 0이어도 터지지 않는다
+assert.equal(basisText(item({ price: 1000, prevWeek: 0 }), "week"), "지난주와 비슷해요");
 
 console.log("신호 판정 점검 통과");

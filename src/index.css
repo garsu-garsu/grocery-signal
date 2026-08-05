@@ -12,6 +12,15 @@ body {
   min-height: 100vh;
 }
 
+/*
+ * 온보딩 코치마크 덮개는 클릭을 받지 않아요.
+ * 진행은 창 전체에서 가로채므로(HomeScreen), 덮개가 클릭을 먹으면
+ * 강조된 카드 위가 눌러도 아무 일 없는 죽은 영역이 됩니다.
+ */
+.coach-through {
+  pointer-events: none;
+}
+
 /* 잠긴 가격 자리 — 값을 숨기되 "여기 뭔가 있다"는 건 보여줘요. */
 .skeleton {
   background: rgba(42, 38, 34, 0.09);

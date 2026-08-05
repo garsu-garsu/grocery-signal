@@ -66,9 +66,48 @@ export function judge(item: PriceItem): Verdict {
   };
 }
 
-/** 살 만한 순 → 미룰 순으로 정렬 (평년 대비 싼 것부터) */
-export function sortByDeal(items: PriceItem[]): PriceItem[] {
-  return [...items].sort((a, b) => judge(a).vsNormal - judge(b).vsNormal);
+/**
+ * 화면에 "얼마나 싼지"를 보여줄 때 무엇과 견줄지.
+ * 신호(초록·빨강) 판정 규칙은 이것과 무관하게 그대로예요 — 보여주는 잣대만 바뀝니다.
+ */
+export type Basis = "week" | "month" | "normal";
+
+export const BASIS_OPTIONS: { value: Basis; label: string }[] = [
+  { value: "week", label: "지난주" },
+  { value: "month", label: "한 달 전" },
+  { value: "normal", label: "평년" },
+];
+
+function basisPrice(item: PriceItem, basis: Basis): number {
+  if (basis === "week") return item.prevWeek;
+  if (basis === "month") return item.prevMonth;
+  return item.normalYear;
+}
+
+/** 선택한 기준 대비 등락률(%) — 반올림한 값이에요. */
+export function basisPct(item: PriceItem, basis: Basis): number {
+  return Math.round(rawPct(item.price, basisPrice(item, basis)));
+}
+
+/** 받침이 있으면 "과", 없으면 "와" — 지난주'와', 평년'과'. */
+function withGwa(word: string): string {
+  const code = word.charCodeAt(word.length - 1);
+  const isHangul = code >= 0xac00 && code <= 0xd7a3;
+  const hasFinal = isHangul && (code - 0xac00) % 28 !== 0;
+  return `${word}${hasFinal ? "과" : "와"}`;
+}
+
+/** 목록 한 줄에 그대로 쓰는 문구. "지난주보다 12% 싸요" */
+export function basisText(item: PriceItem, basis: Basis): string {
+  const label = BASIS_OPTIONS.find((o) => o.value === basis)?.label ?? "평년";
+  const p = basisPct(item, basis);
+  if (p === 0) return `${withGwa(label)} 비슷해요`;
+  return `${label}보다 ${Math.abs(p)}% ${p > 0 ? "비싸요" : "싸요"}`;
+}
+
+/** 살 만한 순 → 미룰 순으로 정렬 (선택한 기준으로 싼 것부터) */
+export function sortByDeal(items: PriceItem[], basis: Basis = "normal"): PriceItem[] {
+  return [...items].sort((a, b) => basisPct(a, basis) - basisPct(b, basis));
 }
 
 export function formatWon(n: number): string {
