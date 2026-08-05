@@ -1,0 +1,33 @@
+name: 시세 갱신
+
+on:
+  schedule:
+    - cron: "0 21 * * *" # UTC 21:00 = KST 06:00
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: KAMIS 시세 받아오기
+        env:
+          KAMIS_CERT_KEY: ${{ secrets.KAMIS_CERT_KEY }}
+          KAMIS_CERT_ID: ${{ secrets.KAMIS_CERT_ID }}
+        run: node scripts/fetch-kamis.mjs
+
+      # 스크립트가 실패하면 여기까지 안 옵니다 = 기존 파일이 그대로 남아요.
+      # 빈 데이터로 덮어써서 "오늘은 품목이 없어요"를 보여주는 것보다 낫습니다.
+      - name: 변경분 커밋
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data/prices.json
+          git diff --staged --quiet || git commit -m "chore: 시세 갱신 $(date -u -d '+9 hours' +%Y-%m-%d)"
+          git push
