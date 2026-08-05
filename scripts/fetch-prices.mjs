@@ -189,6 +189,8 @@ async function main() {
 }
 
 main().catch((err) => {
+  // fetch 실패는 message 가 "fetch failed" 뿐이라 cause 를 같이 찍어야 원인이 보여요.
   console.error(err.message);
+  if (err.cause != null) console.error("cause:", err.cause);
   process.exit(1);
 });
