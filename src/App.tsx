@@ -1,6 +1,7 @@
 import { closeView, graniteEvent } from "@apps-in-toss/web-framework";
 import { useEffect, useState } from "react";
 
+import { BannerAd } from "./components/BannerAd";
 import { ScreenLayout } from "./components/ScreenLayout";
 import { loadPrices, type PriceData, type PriceItem } from "./data/prices";
 import { ItemDetailScreen } from "./features/detail/ItemDetailScreen";
@@ -57,6 +58,22 @@ export default function App() {
         ) : (
           <HomeScreen data={data} onSelect={setSelected} />
         )}
+      </div>
+
+      {/* 배너는 화면마다 따로 두지 않고 여기 하나만 띄워요 — 한 화면에 배너는 하나입니다. */}
+      <div
+        style={{
+          position: "fixed",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 10,
+          background: palette.bg,
+          padding: "0 20px",
+          paddingBottom: "env(safe-area-inset-bottom)",
+        }}
+      >
+        <BannerAd />
       </div>
     </div>
   );

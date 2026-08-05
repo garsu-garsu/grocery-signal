@@ -12,6 +12,29 @@ body {
   min-height: 100vh;
 }
 
+/* 잠긴 가격 자리 — 값을 숨기되 "여기 뭔가 있다"는 건 보여줘요. */
+.skeleton {
+  background: rgba(42, 38, 34, 0.09);
+  border-radius: 6px;
+  animation: skeleton-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}
+
 @media (min-width: 481px) {
   body {
     display: flex;

@@ -20,7 +20,8 @@ export function ScreenLayout({ children }: { children: ReactNode }) {
           overflowY: "auto",
           padding: "12px 20px 32px",
           paddingTop: "max(12px, env(safe-area-inset-top))",
-          paddingBottom: "max(32px, env(safe-area-inset-bottom))",
+          // 하단 고정 배너에 마지막 줄이 가리지 않게 자리를 비워둬요.
+          paddingBottom: "calc(max(32px, env(safe-area-inset-bottom)) + 96px)",
           WebkitOverflowScrolling: "touch",
         }}
       >

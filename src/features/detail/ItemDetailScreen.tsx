@@ -1,17 +1,30 @@
 import { Button } from "@toss/tds-mobile";
+import { useEffect, useState } from "react";
 
 import { Card, ScreenLayout } from "../../components/ScreenLayout";
 import type { PriceItem } from "../../data/prices";
 import { useAdGate } from "../../hooks/useAdGate";
+import { useFreeQuota } from "../../hooks/useFreeQuota";
 import { useUnlock } from "../../hooks/useUnlock";
 import { formatWon, judge } from "../../lib/signal";
 import { palette, signalStyle } from "../../theme";
 
+/** 하루에 이만큼은 광고 없이 그래프를 볼 수 있어요. */
+const FREE_CHARTS = 2;
+
 export function ItemDetailScreen({ item }: { item: PriceItem }) {
   const { unlocked, unlock } = useUnlock("chart");
+  const { claim } = useFreeQuota("chart", FREE_CHARTS);
+  const [free, setFree] = useState(false);
   const { watchThen } = useAdGate();
   const v = judge(item);
   const { color, mark, title } = signalStyle(v.signal);
+
+  useEffect(() => {
+    setFree(claim(item.id));
+  }, [item.id, claim]);
+
+  const open = unlocked || free;
 
   return (
     <ScreenLayout>
@@ -56,14 +69,28 @@ export function ItemDetailScreen({ item }: { item: PriceItem }) {
         <h2 style={{ fontSize: 18, fontWeight: 700, color: palette.ink, margin: "0 0 10px" }}>
           최근 30일 흐름
         </h2>
-        {unlocked ? (
+        {open ? (
           <Card>
             <Sparkline history={item.history} color={color} />
           </Card>
         ) : (
-          <Card style={{ textAlign: "center" }}>
-            <p style={{ fontSize: 15, color: palette.sub, margin: "4px 0 14px" }}>
-              지난 30일 동안 얼마였는지 볼 수 있어요
+          <Card>
+            {/* 그래프를 지우지 않고 흐리게만 둬요 — 모양은 보이니 열어볼 마음이 생깁니다. */}
+            <div
+              style={{ filter: "blur(7px)", opacity: 0.65, pointerEvents: "none" }}
+              aria-hidden
+            >
+              <Sparkline history={item.history} color={color} />
+            </div>
+            <p
+              style={{
+                fontSize: 15,
+                color: palette.sub,
+                margin: "14px 0 12px",
+                textAlign: "center",
+              }}
+            >
+              오늘 무료로 볼 수 있는 그래프를 다 봤어요
             </p>
             <Button
               display="block"
@@ -71,7 +98,7 @@ export function ItemDetailScreen({ item }: { item: PriceItem }) {
               style={{ background: palette.primary, minHeight: 52 }}
               onClick={() => watchThen(unlock)}
             >
-              광고 보고 그래프 보기
+              그래프 보기 (광고 후)
             </Button>
           </Card>
         )}
