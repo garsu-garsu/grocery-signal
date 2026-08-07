@@ -5,6 +5,9 @@ node_modules/
 dist/
 *.ait
 
+# 콘솔 스크린샷 — scripts/shots.mjs 로 언제든 다시 뽑아요
+screenshots/
+
 # 환경 변수 / 비밀 (실제 값은 커밋하지 않아요 — .env.example 참고)
 .env
 .env.local

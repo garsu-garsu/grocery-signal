@@ -25,6 +25,7 @@
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
+    "@apps-in-toss/devtools": "^3.0.2",
     "@eslint/js": "^9.21.0",
     "@types/node": "^22.20.1",
     "@types/react": "^18.0.0",
@@ -35,9 +36,9 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
     "prettier": "^3.4.2",
+    "puppeteer-core": "^25.5.0",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
-    "vite": "^6.2.0",
-    "@apps-in-toss/devtools": "^3.0.2"
+    "vite": "^6.2.0"
   }
 }
