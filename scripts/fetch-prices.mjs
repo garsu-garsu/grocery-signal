@@ -54,8 +54,10 @@ const toIso = (s) => `${s.slice(0, 4)}-${s.slice(4, 6)}-${s.slice(6, 8)}`;
  * 품목마다 네 번씩, 한 번 돌 때 예순 번 넘게 거는데 그중 하나만 걸려도
  * 그날 갱신이 통째로 날아갑니다. 잠깐 쉬었다 다시 걸어요.
  */
-const RETRIES = 3;
-const RETRY_BASE_MS = 3000;
+// 8/7 실패한 판은 60초 동안 네 번 다 튕겼는데 2분 뒤에는 됐어요.
+// 그 골을 건널 만큼은 기다립니다 (5·10·15·20·25초 = 75초 + 접속 대기).
+const RETRIES = 5;
+const RETRY_BASE_MS = 5000;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 

@@ -57,9 +57,9 @@ check("키가 틀린 4xx 는 바로 포기해요", async () => {
 });
 
 check("계속 실패하면 멈춰요 (무한 재시도 금지)", async () => {
-  const calls = stubFetch(Array.from({ length: 10 }, connectFail));
+  const calls = stubFetch(Array.from({ length: 20 }, connectFail));
   await assert.rejects(() => fetchRetrying("http://x", "테스트"));
-  assert.equal(calls(), 4); // 첫 시도 + 재시도 3번
+  assert.equal(calls(), 6); // 첫 시도 + 재시도 5번
 });
 
 let failed = 0;
