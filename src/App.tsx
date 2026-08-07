@@ -11,6 +11,15 @@ import { palette } from "./theme";
 
 const ONBOARDED_KEY = "grocery-signal:onboarded";
 
+/** 미니앱 종료. closeView 는 Promise 를 돌려줘서 거절도 함께 삼켜요. */
+function closeApp() {
+  try {
+    void closeView().catch(() => {});
+  } catch {
+    /* 브라우저 등 미지원 환경 */
+  }
+}
+
 export default function App() {
   // 첫 실행이면 소개 화면부터 — 한 번 보고 나면 다시 뜨지 않아요.
   const [onboarded, setOnboarded] = useState(
@@ -32,18 +41,23 @@ export default function App() {
       return graniteEvent.addEventListener("backEvent", {
         onEvent: () => {
           if (selected != null) setSelected(null);
-          else
-            try {
-              closeView();
-            } catch {
-              /* noop */
-            }
+          else closeApp();
         },
       });
     } catch {
       return undefined;
     }
   }, [selected]);
+
+  // 우측 상단 닫기(홈) 버튼 — 어느 화면에 있든 앱을 닫아요.
+  // backEvent 만 구독하면 이 버튼을 아무도 처리하지 않아 눌러도 안 닫혀요.
+  useEffect(() => {
+    try {
+      return graniteEvent.addEventListener("homeEvent", { onEvent: closeApp });
+    } catch {
+      return undefined;
+    }
+  }, []);
 
   return (
     <div
