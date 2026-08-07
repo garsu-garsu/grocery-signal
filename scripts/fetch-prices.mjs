@@ -11,6 +11,7 @@
 // 실행: DATA_GO_KR_KEY=... node scripts/fetch-prices.mjs
 
 import { writeFile } from "node:fs/promises";
+import { pathToFileURL } from "node:url";
 
 const KEY = process.env.DATA_GO_KR_KEY;
 const BASE = "https://apis.data.go.kr/B552845/perDay/price";
@@ -48,6 +49,41 @@ const iso = (d) => d.toISOString().slice(0, 10);
 /** "20260805" → "2026-08-05" */
 const toIso = (s) => `${s.slice(0, 4)}-${s.slice(4, 6)}-${s.slice(6, 8)}`;
 
+/**
+ * 공공데이터포털이 가끔 접속 자체를 못 받아요 (UND_ERR_CONNECT_TIMEOUT).
+ * 품목마다 네 번씩, 한 번 돌 때 예순 번 넘게 거는데 그중 하나만 걸려도
+ * 그날 갱신이 통째로 날아갑니다. 잠깐 쉬었다 다시 걸어요.
+ */
+const RETRIES = 3;
+const RETRY_BASE_MS = 3000;
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function retryAfter(attempt, why) {
+  const wait = RETRY_BASE_MS * attempt;
+  console.warn(`  ${why} — ${wait / 1000}초 쉬고 다시 (${attempt}/${RETRIES})`);
+  await sleep(wait);
+}
+
+export async function fetchRetrying(url, label) {
+  for (let attempt = 1; ; attempt++) {
+    let res;
+    try {
+      res = await fetch(url);
+    } catch (err) {
+      if (attempt > RETRIES) throw err;
+      await retryAfter(attempt, `${label} 접속 실패`);
+      continue;
+    }
+    if (res.ok) return res;
+    // 4xx 는 다시 걸어도 같은 답이 와요 — 키나 파라미터가 틀린 거예요.
+    if (res.status < 500 || attempt > RETRIES) {
+      throw new Error(`${label} 응답 ${res.status}`);
+    }
+    await retryAfter(attempt, `${label} 응답 ${res.status}`);
+  }
+}
+
 async function fetchRows(item, from, to) {
   const rows = [];
   for (let page = 1; page <= 5; page++) {
@@ -63,8 +99,10 @@ async function fetchRows(item, from, to) {
       "cond[se_cd::EQ]=01",
     ].join("&");
 
-    const res = await fetch(`${BASE}?${qs}`);
-    if (!res.ok) throw new Error(`${item.name} ${from}~${to} 응답 ${res.status}`);
+    const res = await fetchRetrying(
+      `${BASE}?${qs}`,
+      `${item.name} ${from}~${to}`,
+    );
     const json = await res.json();
     const body = json?.response?.body;
     const got = body?.items?.item ?? [];
@@ -188,9 +226,12 @@ async function main() {
   console.log(`\n${items.length}개 품목 저장 (조사일 ${asOf})`);
 }
 
-main().catch((err) => {
-  // fetch 실패는 message 가 "fetch failed" 뿐이라 cause 를 같이 찍어야 원인이 보여요.
-  console.error(err.message);
-  if (err.cause != null) console.error("cause:", err.cause);
-  process.exit(1);
-});
+// 직접 실행할 때만 돌려요 — 재시도 검사(check-fetch-retry.mjs)가 이 파일을 import 합니다.
+if (process.argv[1] != null && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((err) => {
+    // fetch 실패는 message 가 "fetch failed" 뿐이라 cause 를 같이 찍어야 원인이 보여요.
+    console.error(err.message);
+    if (err.cause != null) console.error("cause:", err.cause);
+    process.exit(1);
+  });
+}
