@@ -35,7 +35,7 @@ assert.equal(judge(item({ price: 1150, normalYear: 1000 })).signal, "wait");
 assert.equal(judge(item({ price: 1149, normalYear: 1000 })).signal, "normal");
 
 // 3주 연속 상승이면 평년 수준이어도 미루세요
-// (판정은 21·14·7일 전 세 지점 = 30칸 히스토리의 8·15·22번 칸을 봅니다)
+// (판정은 21·14·7일 전 세 지점을 날짜로 찾습니다 — 칸 수가 아니에요)
 const up30 = Array.from({ length: 30 }, (_, i) => 800 + i * 10);
 assert.equal(judge(item({ price: 1050, normalYear: 1000, history: history(up30) })).signal, "wait");
 
@@ -44,6 +44,38 @@ const wobbly30 = [...up30];
 wobbly30[15] = 700; // 14일 전이 21일 전보다 쌌다면 연속 상승이 아님
 assert.equal(
   judge(item({ price: 1050, normalYear: 1000, history: history(wobbly30) })).signal,
+  "normal",
+);
+
+// 날짜에 구멍이 있어도 "21·14·7일 전"을 날짜로 찾는다.
+// (주말·공휴일엔 시세가 없어 실제 데이터가 이렇게 생겼어요)
+function datedHistory(points: [string, number][]): PriceItem["history"] {
+  return points.map(([d, p]) => ({ d, p }));
+}
+// 07-30 기준 21일 전=07-09, 14일 전=07-16, 7일 전=07-23.
+// 그 세 날은 비어 있어서 각각 07-08 · 07-15 · 07-22 값을 써야 해요.
+const gappy = datedHistory([
+  ["2026-07-01", 500],
+  ["2026-07-08", 900], // 21일 전 자리
+  ["2026-07-15", 1000], // 14일 전 자리
+  ["2026-07-22", 1100], // 7일 전 자리
+  ["2026-07-30", 1200],
+]);
+assert.equal(
+  judge(item({ price: 1200, normalYear: 1200, history: gappy })).signal,
+  "wait",
+);
+// 칸 수로 셌다면 07-01·07-08·07-15 를 보게 되고, 그래도 상승이라 통과해 버려요.
+// 그래서 "날짜로는 하락, 칸 수로는 상승"인 경우로 한 번 더 확인해요.
+const gappyDown = datedHistory([
+  ["2026-07-01", 100],
+  ["2026-07-08", 200], // 칸 기준 21일 전
+  ["2026-07-15", 300], // 칸 기준 14일 전
+  ["2026-07-22", 1300], // 날짜 기준 7일 전 — 오늘보다 비쌈
+  ["2026-07-30", 1200],
+]);
+assert.equal(
+  judge(item({ price: 1200, normalYear: 1200, history: gappyDown })).signal,
   "normal",
 );
 

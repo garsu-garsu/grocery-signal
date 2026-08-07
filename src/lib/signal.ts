@@ -18,13 +18,22 @@ function rawPct(now: number, base: number): number {
   return ((now - base) / base) * 100;
 }
 
-/** 히스토리에서 n일 전 가격 (없으면 가장 가까운 과거 값) */
+/**
+ * 히스토리에서 n일 전 가격 (그날 값이 없으면 가장 가까운 과거 값).
+ *
+ * 칸 수로 세면 안 돼요 — 주말·공휴일엔 장이 서지 않아 시세가 비어요.
+ * 실제로 28칸이 38일에 걸쳐 있어서, 21칸 전은 21일 전이 아니라 약 4주 전이에요.
+ */
 function priceDaysAgo(item: PriceItem, days: number): number | null {
   const h = item.history;
   if (h.length === 0) return null;
-  const idx = h.length - 1 - days;
-  if (idx < 0) return null;
-  return h[idx].p;
+  const dayMs = 86400000;
+  const target = Date.parse(`${h[h.length - 1].d}T00:00:00Z`) - days * dayMs;
+  if (Number.isNaN(target)) return null;
+  for (let i = h.length - 1; i >= 0; i--) {
+    if (Date.parse(`${h[i].d}T00:00:00Z`) <= target) return h[i].p;
+  }
+  return null;
 }
 
 /** 3주 연속 상승: 21일 전 < 14일 전 < 7일 전 < 오늘 */
