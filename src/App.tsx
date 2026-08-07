@@ -6,9 +6,16 @@ import { ScreenLayout } from "./components/ScreenLayout";
 import { loadPrices, type PriceData, type PriceItem } from "./data/prices";
 import { ItemDetailScreen } from "./features/detail/ItemDetailScreen";
 import { HomeScreen } from "./features/home/HomeScreen";
+import { OnboardingScreen } from "./features/onboarding/OnboardingScreen";
 import { palette } from "./theme";
 
+const ONBOARDED_KEY = "grocery-signal:onboarded";
+
 export default function App() {
+  // 첫 실행이면 소개 화면부터 — 한 번 보고 나면 다시 뜨지 않아요.
+  const [onboarded, setOnboarded] = useState(
+    () => localStorage.getItem(ONBOARDED_KEY) != null,
+  );
   const [data, setData] = useState<PriceData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState<PriceItem | null>(null);
@@ -49,7 +56,14 @@ export default function App() {
       }}
     >
       <div style={{ flex: 1, minHeight: 0 }}>
-        {error != null ? (
+        {!onboarded ? (
+          <OnboardingScreen
+            onStart={() => {
+              localStorage.setItem(ONBOARDED_KEY, "1");
+              setOnboarded(true);
+            }}
+          />
+        ) : error != null ? (
           <Message text={error} />
         ) : data == null ? (
           <Message text="오늘 시세를 불러오는 중이에요" />
