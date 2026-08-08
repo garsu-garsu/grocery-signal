@@ -1,5 +1,5 @@
 import { Button, SegmentedControl } from "@toss/tds-mobile";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type RefObject } from "react";
 
 import { CoachMark } from "../../components/CoachMark";
 import { HomeActions } from "../../components/HomeActions";
@@ -152,49 +152,23 @@ export function HomeScreen({
       </div>
 
       <Section signal="buy">
-        {buys.length === 0 ? (
-          <Empty text="오늘은 특별히 싼 품목이 없어요." />
-        ) : (
-          (unlocked ? buys : buys.slice(0, FREE_PER_SIDE)).map((item, i) => {
-            const row = (
-              <PriceRow
-                item={item}
-                basis={basis}
-                onClick={() => onSelect(item)}
-              />
-            );
-            return i === 0 ? (
-              <div key={item.id} ref={buyRef}>
-                {row}
-              </div>
-            ) : (
-              <div key={item.id}>{row}</div>
-            );
-          })
-        )}
+        <ItemList
+          items={unlocked ? buys : buys.slice(0, FREE_PER_SIDE)}
+          emptyText="오늘은 특별히 싼 품목이 없어요."
+          basis={basis}
+          firstRef={buyRef}
+          onSelect={onSelect}
+        />
       </Section>
 
       <Section signal="wait">
-        {waits.length === 0 ? (
-          <Empty text="오늘은 특별히 비싼 품목이 없어요." />
-        ) : (
-          (unlocked ? waits : waits.slice(0, FREE_PER_SIDE)).map((item, i) => {
-            const row = (
-              <PriceRow
-                item={item}
-                basis={basis}
-                onClick={() => onSelect(item)}
-              />
-            );
-            return i === 0 ? (
-              <div key={item.id} ref={waitRef}>
-                {row}
-              </div>
-            ) : (
-              <div key={item.id}>{row}</div>
-            );
-          })
-        )}
+        <ItemList
+          items={unlocked ? waits : waits.slice(0, FREE_PER_SIDE)}
+          emptyText="오늘은 특별히 비싼 품목이 없어요."
+          basis={basis}
+          firstRef={waitRef}
+          onSelect={onSelect}
+        />
       </Section>
 
       {(unlocked || freeMids > 0) && mids.length > 0 && (
@@ -364,6 +338,39 @@ function Empty({ text }: { text: string }) {
     <Card>
       <p style={{ fontSize: 15, color: palette.sub, margin: 0 }}>{text}</p>
     </Card>
+  );
+}
+
+/** 사세요/미루세요 목록 — 첫 항목에만 코치마크가 짚어줄 ref를 달아요. */
+function ItemList({
+  items,
+  emptyText,
+  basis,
+  firstRef,
+  onSelect,
+}: {
+  items: PriceItem[];
+  emptyText: string;
+  basis: Basis;
+  firstRef: RefObject<HTMLDivElement>;
+  onSelect: (item: PriceItem) => void;
+}) {
+  if (items.length === 0) return <Empty text={emptyText} />;
+  return (
+    <>
+      {items.map((item, i) => {
+        const row = (
+          <PriceRow item={item} basis={basis} onClick={() => onSelect(item)} />
+        );
+        return i === 0 ? (
+          <div key={item.id} ref={firstRef}>
+            {row}
+          </div>
+        ) : (
+          <div key={item.id}>{row}</div>
+        );
+      })}
+    </>
   );
 }
 
