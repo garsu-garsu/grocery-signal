@@ -3,10 +3,21 @@ import { useEffect, useRef, useState } from "react";
 
 import { AD_GROUP_ID_BANNER } from "../lib/env";
 
-/** 배너 광고 — 한 화면에 1개만 (홈 최하단). */
+/**
+ * 한 번 붙은 배너는 같은 광고를 계속 물고 있어요. 주기마다 떼었다 다시 붙여
+ * 새 광고를 받아옵니다.
+ *
+ * 30초인 이유: 토스 배너는 AdMob 기반인데 AdMob 은 30초보다 잦은 갱신을
+ * 무효 트래픽으로 봐요. 더 짧게 잡으면 수익보다 제재 위험이 커져요.
+ */
+const REFRESH_MS = 30_000;
+
+/** 배너 광고 — 한 화면에 1개만 (하단 고정). */
 export function BannerAd() {
   const targetRef = useRef<HTMLDivElement | null>(null);
   const [ready, setReady] = useState(false);
+  // 이 값이 바뀔 때마다 아래 effect 가 다시 돌면서 배너를 새로 붙여요.
+  const [round, setRound] = useState(0);
 
   // SDK 초기화. onInitialized 를 받기 전에 attachBanner 를 부르면 광고가 안 붙어요.
   useEffect(() => {
@@ -48,6 +59,29 @@ export function BannerAd() {
       } catch {
         /* noop */
       }
+    };
+  }, [ready, round]);
+
+  // 화면을 보고 있을 때만 갱신해요. 안 보이는 동안 돌리면 노출로 잡히지 않고
+  // 호출만 쌓여요.
+  useEffect(() => {
+    if (!ready) return;
+    let timer: ReturnType<typeof setInterval> | undefined;
+    const start = () => {
+      stop();
+      timer = setInterval(() => setRound((n) => n + 1), REFRESH_MS);
+    };
+    const stop = () => {
+      if (timer != null) clearInterval(timer);
+      timer = undefined;
+    };
+    const onVisibility = () => (document.hidden ? stop() : start());
+
+    if (!document.hidden) start();
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      stop();
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [ready]);
 
