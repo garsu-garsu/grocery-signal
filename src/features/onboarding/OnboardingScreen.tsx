@@ -28,7 +28,7 @@ const STEPS = [
 /** 첫 실행에 한 번만 보여주는 소개 화면. */
 export function OnboardingScreen({ onStart }: Props) {
   return (
-    <ScreenLayout>
+    <ScreenLayout hideAd>
       <h1 style={{ fontSize: 24, fontWeight: 800, color: palette.ink, margin: "8px 0 4px" }}>
         장보기 신호등
       </h1>

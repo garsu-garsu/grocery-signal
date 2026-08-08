@@ -1,9 +1,17 @@
 import type { CSSProperties, ReactNode } from "react";
 
+import { ImageBannerAd } from "./BannerAd";
 import { palette } from "../theme";
 
 /** 공통 화면 틀 — 상단 바는 토스 네이티브가 처리하고, 여기선 본문만. */
-export function ScreenLayout({ children }: { children: ReactNode }) {
+export function ScreenLayout({
+  children,
+  hideAd,
+}: {
+  children: ReactNode;
+  /** 소개·인트로 화면처럼 광고를 띄우면 안 되는 곳에서 켜요. */
+  hideAd?: boolean;
+}) {
   return (
     <div
       style={{
@@ -26,6 +34,12 @@ export function ScreenLayout({ children }: { children: ReactNode }) {
         }}
       >
         {children}
+
+        {/* 이미지 강조형 배너 — 본문을 끝까지 내린 사람에게만 보여요.
+            하단 고정 배너는 창에 붙어 있고, 이건 콘텐츠 흐름의 맨 끝입니다. */}
+        <div style={{ marginTop: 24 }}>
+          {!hideAd && <ImageBannerAd />}
+        </div>
       </main>
     </div>
   );
