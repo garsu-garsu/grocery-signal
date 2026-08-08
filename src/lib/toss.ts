@@ -5,8 +5,8 @@ import { Notification, Review, Share } from "@apps-in-toss/web-framework";
  * 코드를 바꾸면 콘솔의 발송 코드도 같이 바꿔야 알림 동의 화면이 떠요.
  */
 export const NOTIFY_SLOTS = [
-  { code: "grocery-signal-morning", label: "매일 아침 8시" },
-  { code: "grocery-signal-evening", label: "매일 저녁 6시" },
+  { code: "grocery-signal-am0800", label: "매일 아침 8시" },
+  { code: "grocery-signal-pm1800", label: "매일 저녁 6시" },
 ] as const;
 
 export type NotifySlotCode = (typeof NOTIFY_SLOTS)[number]["code"];
