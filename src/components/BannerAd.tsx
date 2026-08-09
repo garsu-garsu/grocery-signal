@@ -17,6 +17,11 @@ interface Props {
   adGroupId?: string;
   /** 자리 높이. 이미지형은 문구형보다 커요. */
   height?: number;
+  /**
+   * 소재가 height 보다 크면 그만큼 늘어나게 해요.
+   * 하단 고정 배너에는 쓰면 안 돼요 — 위로 자라서 본문을 덮어요(App.tsx 가 96px 만 비워둬요).
+   */
+  grow?: boolean;
 }
 
 /**
@@ -24,7 +29,7 @@ interface Props {
  * - 기본값: 문구 강조형 — App.tsx 에서 화면 하단에 고정으로 하나만 띄워요.
  * - ImageBannerAd: 이미지 강조형 — 각 화면 본문 맨 아래에 붙여요.
  */
-export function BannerAd({ adGroupId, height = 96 }: Props = {}) {
+export function BannerAd({ adGroupId, height = 96, grow }: Props = {}) {
   const groupId = adGroupId ?? AD_GROUP_ID_BANNER;
   const targetRef = useRef<HTMLDivElement | null>(null);
   const [ready, setReady] = useState(false);
@@ -98,8 +103,15 @@ export function BannerAd({ adGroupId, height = 96 }: Props = {}) {
   }, [ready]);
 
   if (groupId === "") return null;
-  // 높이 0 이거나 overflow: hidden 이면 광고가 렌더링되지 않아요. 자리를 미리 잡아둡니다.
-  return <div ref={targetRef} style={{ width: "100%", height }} />;
+  // 높이 0 이거나 overflow: hidden 이면 광고가 렌더링되지 않아 자리를 미리 잡아둬요.
+  // SDK 가 소재 크기를 알려주지 않아서, 늘어나도 되는 자리는 minHeight 로 둬요.
+  // height 로 고정하면 소재가 그보다 클 때 아래가 잘려요.
+  return (
+    <div
+      ref={targetRef}
+      style={grow ? { width: "100%", minHeight: height } : { width: "100%", height }}
+    />
+  );
 }
 
 /**
@@ -107,5 +119,5 @@ export function BannerAd({ adGroupId, height = 96 }: Props = {}) {
  * 하단 고정 배너는 창에 붙어 있어 본문 흐름을 막지 않고, 이건 끝까지 내려야 보여요.
  */
 export function ImageBannerAd() {
-  return <BannerAd adGroupId={AD_GROUP_ID_BANNER_IMAGE} height={200} />;
+  return <BannerAd adGroupId={AD_GROUP_ID_BANNER_IMAGE} height={200} grow />;
 }
