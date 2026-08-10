@@ -2,6 +2,7 @@ import { loadFullScreenAd, showFullScreenAd } from "@apps-in-toss/web-framework"
 import { useToast } from "@toss/tds-mobile";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { EVENT, track } from "../lib/analytics";
 import { AD_GROUP_ID_REWARDED } from "../lib/env";
 
 /** 보상형 광고 게이트: "광고 보고 → 액션 실행". 미설정/미지원이면 즉시 통과(개발 편의). */
@@ -51,6 +52,7 @@ export function useAdGate() {
           onEvent: (e) => {
             if (e.type === "userEarnedReward") {
               rewarded = true;
+              track(EVENT.adRewarded);
             } else if (e.type === "dismissed") {
               setReady(false);
               load();

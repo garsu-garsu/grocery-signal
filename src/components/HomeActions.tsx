@@ -2,6 +2,7 @@ import { Button, useToast } from "@toss/tds-mobile";
 import { useEffect, useState } from "react";
 
 import { palette } from "../theme";
+import { EVENT, track } from "../lib/analytics";
 import {
   NOTIFY_SLOTS,
   agreedSlot,
@@ -29,6 +30,7 @@ export function HomeActions() {
   const onNotify = async (code: NotifySlotCode) => {
     try {
       const result = await requestNotify(code);
+      track(EVENT.notifyConsent, { result, slot: code });
       if (result === "agreementRejected") return;
       setAgreed(code);
       toast.openToast(
@@ -46,9 +48,11 @@ export function HomeActions() {
       toast.openToast("공유를 준비 중이에요. 잠시 후 다시 눌러 주세요.");
       return;
     }
-    shareApp(shareLink).catch(() => {
-      toast.openToast("공유를 열지 못했어요. 잠시 후 다시 시도해 주세요.");
-    });
+    shareApp(shareLink)
+      .then(() => track(EVENT.shareCompleted))
+      .catch(() => {
+        toast.openToast("공유를 열지 못했어요. 잠시 후 다시 시도해 주세요.");
+      });
   };
 
   return (

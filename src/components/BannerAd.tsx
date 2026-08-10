@@ -1,6 +1,7 @@
 import { TossAds } from "@apps-in-toss/web-framework";
 import { useEffect, useRef, useState } from "react";
 
+import { EVENT, track } from "../lib/analytics";
 import { AD_GROUP_ID_BANNER, AD_GROUP_ID_BANNER_IMAGE } from "../lib/env";
 
 /**
@@ -62,6 +63,7 @@ export function BannerAd({ adGroupId, height = 96, grow }: Props = {}) {
         theme: "auto",
         variant: "card",
         callbacks: {
+          onAdRendered: () => track(EVENT.adBannerImpression, {}, "impression"),
           onNoFill: () => console.warn("[banner] 채울 광고가 없어요"),
           onAdFailedToRender: (p) => console.error(p.error),
         },

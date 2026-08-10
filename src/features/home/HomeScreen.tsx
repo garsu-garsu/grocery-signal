@@ -8,6 +8,7 @@ import type { PriceData, PriceItem } from "../../data/prices";
 import { useAdGate } from "../../hooks/useAdGate";
 import { useOnboarding } from "../../hooks/useOnboarding";
 import { useUnlock } from "../../hooks/useUnlock";
+import { EVENT, track } from "../../lib/analytics";
 import { formatKorDate } from "../../lib/kst";
 import { askReviewOnce } from "../../lib/toss";
 import {
@@ -212,6 +213,10 @@ export function HomeScreen({
               onClick={() =>
                 watchThen(() => {
                   unlock();
+                  track(EVENT.itemsUnlocked, {
+                    target: "all_items",
+                    locked_count: lockedItems.length,
+                  });
                   // 광고 창이 닫히는 동안 겹치지 않게 한 박자 뒤에 물어봐요.
                   setTimeout(() => void askReviewOnce(), 1500);
                 })

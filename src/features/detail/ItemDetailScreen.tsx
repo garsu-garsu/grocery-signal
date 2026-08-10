@@ -6,6 +6,7 @@ import type { PriceItem } from "../../data/prices";
 import { useAdGate } from "../../hooks/useAdGate";
 import { useFreeQuota } from "../../hooks/useFreeQuota";
 import { useUnlock } from "../../hooks/useUnlock";
+import { EVENT, track } from "../../lib/analytics";
 import { formatWon, judge } from "../../lib/signal";
 import { palette, signalStyle } from "../../theme";
 
@@ -23,6 +24,16 @@ export function ItemDetailScreen({ item }: { item: PriceItem }) {
   useEffect(() => {
     setFree(claim(item.id));
   }, [item.id, claim]);
+
+  // 이 앱을 쓰는 이유 — 어떤 품목을 지금 사도 되는지 실제로 확인한 순간이에요.
+  useEffect(() => {
+    track(EVENT.signalChecked, {
+      item_id: item.id,
+      signal: v.signal,
+      vs_normal: v.vsNormal,
+      vs_week: v.vsWeek,
+    });
+  }, [item.id, v.signal, v.vsNormal, v.vsWeek]);
 
   const open = unlocked || free;
 
@@ -96,7 +107,15 @@ export function ItemDetailScreen({ item }: { item: PriceItem }) {
               display="block"
               size="large"
               style={{ background: palette.primary, minHeight: 52 }}
-              onClick={() => watchThen(unlock)}
+              onClick={() =>
+                watchThen(() => {
+                  unlock();
+                  track(EVENT.itemsUnlocked, {
+                    target: "chart",
+                    item_id: item.id,
+                  });
+                })
+              }
             >
               그래프 보기 (광고 후)
             </Button>

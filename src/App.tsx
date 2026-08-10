@@ -7,6 +7,7 @@ import { loadPrices, type PriceData, type PriceItem } from "./data/prices";
 import { ItemDetailScreen } from "./features/detail/ItemDetailScreen";
 import { HomeScreen } from "./features/home/HomeScreen";
 import { OnboardingScreen } from "./features/onboarding/OnboardingScreen";
+import { EVENT, track, trackScreen } from "./lib/analytics";
 import { palette } from "./theme";
 
 const ONBOARDED_KEY = "grocery-signal:onboarded";
@@ -34,6 +35,12 @@ export default function App() {
       .then(setData)
       .catch((e: Error) => setError(e.message));
   }, []);
+
+  useEffect(() => {
+    trackScreen(
+      !onboarded ? "onboarding" : selected != null ? "detail" : "home",
+    );
+  }, [onboarded, selected]);
 
   // 토스 네이티브 상단 바 뒤로가기를 앱 내 이동에 연결
   useEffect(() => {
@@ -74,6 +81,7 @@ export default function App() {
           <OnboardingScreen
             onStart={() => {
               localStorage.setItem(ONBOARDED_KEY, "1");
+              track(EVENT.onboardingComplete);
               setOnboarded(true);
             }}
           />
