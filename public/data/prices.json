@@ -8,9 +8,9 @@
       "name": "배추",
       "unit": "1포기",
       "price": 5952,
-      "prevWeek": 5873,
+      "prevWeek": 5877,
       "prevMonth": 4921,
-      "normalYear": 6991,
+      "normalYear": 7073,
       "history": [
         {
           "d": "2026-08-18",
@@ -127,9 +127,9 @@
       "name": "무",
       "unit": "1개",
       "price": 2136,
-      "prevWeek": 2124,
+      "prevWeek": 2116,
       "prevMonth": 2163,
-      "normalYear": 2535,
+      "normalYear": 2568,
       "history": [
         {
           "d": "2026-08-18",
@@ -246,9 +246,9 @@
       "name": "양파",
       "unit": "1kg",
       "price": 1929,
-      "prevWeek": 1876,
+      "prevWeek": 1874,
       "prevMonth": 1983,
-      "normalYear": 2009,
+      "normalYear": 2006,
       "history": [
         {
           "d": "2026-08-18",
@@ -365,9 +365,9 @@
       "name": "파",
       "unit": "1kg",
       "price": 5431,
-      "prevWeek": 5469,
+      "prevWeek": 5581,
       "prevMonth": 5719,
-      "normalYear": 5548,
+      "normalYear": 5593,
       "history": [
         {
           "d": "2026-08-18",
@@ -484,9 +484,9 @@
       "name": "시금치",
       "unit": "100g",
       "price": 1735,
-      "prevWeek": 1859,
+      "prevWeek": 1770,
       "prevMonth": 2141,
-      "normalYear": 2494,
+      "normalYear": 2470,
       "history": [
         {
           "d": "2026-08-18",
@@ -603,9 +603,9 @@
       "name": "호박",
       "unit": "1개",
       "price": 1936,
-      "prevWeek": 2375,
+      "prevWeek": 2339,
       "prevMonth": 1702,
-      "normalYear": 1906,
+      "normalYear": 1933,
       "history": [
         {
           "d": "2026-08-18",
@@ -722,9 +722,9 @@
       "name": "오이",
       "unit": "10개",
       "price": 10941,
-      "prevWeek": 12448,
+      "prevWeek": 11870,
       "prevMonth": 10058,
-      "normalYear": 13124,
+      "normalYear": 13262,
       "history": [
         {
           "d": "2026-08-18",
@@ -841,9 +841,9 @@
       "name": "상추",
       "unit": "100g",
       "price": 1721,
-      "prevWeek": 1831,
+      "prevWeek": 1795,
       "prevMonth": 1649,
-      "normalYear": 1991,
+      "normalYear": 2027,
       "history": [
         {
           "d": "2026-08-18",
@@ -962,7 +962,7 @@
       "price": 9921,
       "prevWeek": 9935,
       "prevMonth": 9967,
-      "normalYear": 9112,
+      "normalYear": 9104,
       "history": [
         {
           "d": "2026-08-18",
@@ -1079,9 +1079,9 @@
       "name": "감자",
       "unit": "100g",
       "price": 271,
-      "prevWeek": 291,
+      "prevWeek": 282,
       "prevMonth": 262,
-      "normalYear": 312,
+      "normalYear": 311,
       "history": [
         {
           "d": "2026-08-18",
@@ -1198,9 +1198,9 @@
       "name": "고구마",
       "unit": "1kg",
       "price": 4515,
-      "prevWeek": 4500,
+      "prevWeek": 4517,
       "prevMonth": 4808,
-      "normalYear": 5209,
+      "normalYear": 5189,
       "history": [
         {
           "d": "2026-08-18",
@@ -1317,9 +1317,9 @@
       "name": "사과",
       "unit": "10개",
       "price": 19153,
-      "prevWeek": 19373,
+      "prevWeek": 19341,
       "prevMonth": 20324,
-      "normalYear": 24336,
+      "normalYear": 24226,
       "history": [
         {
           "d": "2026-08-18",
@@ -1436,9 +1436,9 @@
       "name": "배",
       "unit": "10개",
       "price": 28193,
-      "prevWeek": 28962,
+      "prevWeek": 28742,
       "prevMonth": 32270,
-      "normalYear": 29742,
+      "normalYear": 29860,
       "history": [
         {
           "d": "2026-08-18",
@@ -1555,9 +1555,9 @@
       "name": "바나나",
       "unit": "100g",
       "price": 322,
-      "prevWeek": 322,
+      "prevWeek": 321,
       "prevMonth": 287,
-      "normalYear": 310,
+      "normalYear": 311,
       "history": [
         {
           "d": "2026-08-18",
@@ -1676,7 +1676,7 @@
       "price": 5049,
       "prevWeek": 5040,
       "prevMonth": 5060,
-      "normalYear": 5203,
+      "normalYear": 5208,
       "history": [
         {
           "d": "2026-08-18",
@@ -1795,7 +1795,7 @@
       "price": 2417,
       "prevWeek": 2417,
       "prevMonth": 2489,
-      "normalYear": 2445,
+      "normalYear": 2439,
       "history": [
         {
           "d": "2026-08-18",
