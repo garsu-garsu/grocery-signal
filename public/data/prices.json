@@ -9,13 +9,9 @@
       "unit": "1포기",
       "price": 5833,
       "prevWeek": 6111,
-      "prevMonth": 5278,
-      "normalYear": 7307,
+      "prevMonth": 5361,
+      "normalYear": 7316,
       "history": [
-        {
-          "d": "2026-08-31",
-          "p": 5278
-        },
         {
           "d": "2026-09-01",
           "p": 5361
@@ -124,13 +120,9 @@
       "unit": "1개",
       "price": 2287,
       "prevWeek": 2440,
-      "prevMonth": 2386,
-      "normalYear": 2761,
+      "prevMonth": 2397,
+      "normalYear": 2770,
       "history": [
-        {
-          "d": "2026-08-31",
-          "p": 2386
-        },
         {
           "d": "2026-09-01",
           "p": 2397
@@ -239,13 +231,9 @@
       "unit": "1kg",
       "price": 2058,
       "prevWeek": 2166,
-      "prevMonth": 2015,
-      "normalYear": 2198,
+      "prevMonth": 2025,
+      "normalYear": 2191,
       "history": [
-        {
-          "d": "2026-08-31",
-          "p": 2015
-        },
         {
           "d": "2026-09-01",
           "p": 2025
@@ -354,13 +342,9 @@
       "unit": "1kg",
       "price": 4340,
       "prevWeek": 4898,
-      "prevMonth": 5913,
-      "normalYear": 5920,
+      "prevMonth": 5975,
+      "normalYear": 5898,
       "history": [
-        {
-          "d": "2026-08-31",
-          "p": 5913
-        },
         {
           "d": "2026-09-01",
           "p": 5975
@@ -469,13 +453,9 @@
       "unit": "100g",
       "price": 1046,
       "prevWeek": 1174,
-      "prevMonth": 2205,
-      "normalYear": 1837,
+      "prevMonth": 2175,
+      "normalYear": 1810,
       "history": [
-        {
-          "d": "2026-08-31",
-          "p": 2205
-        },
         {
           "d": "2026-09-01",
           "p": 2175
@@ -584,13 +564,9 @@
       "unit": "1개",
       "price": 1261,
       "prevWeek": 1416,
-      "prevMonth": 1736,
-      "normalYear": 2007,
+      "prevMonth": 1799,
+      "normalYear": 2000,
       "history": [
-        {
-          "d": "2026-08-31",
-          "p": 1736
-        },
         {
           "d": "2026-09-01",
           "p": 1799
@@ -699,13 +675,9 @@
       "unit": "10개",
       "price": 7564,
       "prevWeek": 7703,
-      "prevMonth": 11268,
-      "normalYear": 13861,
+      "prevMonth": 11289,
+      "normalYear": 13829,
       "history": [
-        {
-          "d": "2026-08-31",
-          "p": 11268
-        },
         {
           "d": "2026-09-01",
           "p": 11289
@@ -814,13 +786,9 @@
       "unit": "100g",
       "price": 1036,
       "prevWeek": 1079,
-      "prevMonth": 1588,
-      "normalYear": 2064,
+      "prevMonth": 1627,
+      "normalYear": 2048,
       "history": [
-        {
-          "d": "2026-08-31",
-          "p": 1588
-        },
         {
           "d": "2026-09-01",
           "p": 1627
@@ -929,13 +897,9 @@
       "unit": "1kg",
       "price": 10487,
       "prevWeek": 9831,
-      "prevMonth": 9946,
-      "normalYear": 9815,
+      "prevMonth": 10053,
+      "normalYear": 9792,
       "history": [
-        {
-          "d": "2026-08-31",
-          "p": 9946
-        },
         {
           "d": "2026-09-01",
           "p": 10053
@@ -1045,12 +1009,8 @@
       "price": 331,
       "prevWeek": 328,
       "prevMonth": 331,
-      "normalYear": 332,
+      "normalYear": 331,
       "history": [
-        {
-          "d": "2026-08-31",
-          "p": 331
-        },
         {
           "d": "2026-09-01",
           "p": 331
@@ -1159,13 +1119,9 @@
       "unit": "1kg",
       "price": 4812,
       "prevWeek": 4493,
-      "prevMonth": 5204,
-      "normalYear": 5188,
+      "prevMonth": 5291,
+      "normalYear": 5165,
       "history": [
-        {
-          "d": "2026-08-31",
-          "p": 5204
-        },
         {
           "d": "2026-09-01",
           "p": 5291
@@ -1274,13 +1230,9 @@
       "unit": "10개",
       "price": 18653,
       "prevWeek": 20240,
-      "prevMonth": 19693,
-      "normalYear": 25430,
+      "prevMonth": 19773,
+      "normalYear": 25524,
       "history": [
-        {
-          "d": "2026-08-31",
-          "p": 19693
-        },
         {
           "d": "2026-09-01",
           "p": 19773
@@ -1389,13 +1341,9 @@
       "unit": "10개",
       "price": 24100,
       "prevWeek": 28248,
-      "prevMonth": 26882,
-      "normalYear": 28423,
+      "prevMonth": 24355,
+      "normalYear": 28313,
       "history": [
-        {
-          "d": "2026-08-31",
-          "p": 26882
-        },
         {
           "d": "2026-09-01",
           "p": 24355
@@ -1504,13 +1452,9 @@
       "unit": "100g",
       "price": 322,
       "prevWeek": 321,
-      "prevMonth": 315,
+      "prevMonth": 312,
       "normalYear": 307,
       "history": [
-        {
-          "d": "2026-08-31",
-          "p": 315
-        },
         {
           "d": "2026-09-01",
           "p": 312
@@ -1620,12 +1564,8 @@
       "price": 4993,
       "prevWeek": 5007,
       "prevMonth": 5006,
-      "normalYear": 5252,
+      "normalYear": 5253,
       "history": [
-        {
-          "d": "2026-08-31",
-          "p": 5006
-        },
         {
           "d": "2026-09-01",
           "p": 5006
@@ -1735,12 +1675,8 @@
       "price": 2427,
       "prevWeek": 2494,
       "prevMonth": 2424,
-      "normalYear": 2471,
+      "normalYear": 2469,
       "history": [
-        {
-          "d": "2026-08-31",
-          "p": 2424
-        },
         {
           "d": "2026-09-01",
           "p": 2424
