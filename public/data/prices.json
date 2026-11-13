@@ -8,9 +8,9 @@
       "name": "배추",
       "unit": "1포기",
       "price": 2647,
-      "prevWeek": 2829,
+      "prevWeek": 2823,
       "prevMonth": 6256,
-      "normalYear": 3403,
+      "normalYear": 3319,
       "history": [
         {
           "d": "2026-10-06",
@@ -123,9 +123,9 @@
       "name": "무",
       "unit": "1개",
       "price": 1808,
-      "prevWeek": 1902,
+      "prevWeek": 1896,
       "prevMonth": 2665,
-      "normalYear": 2007,
+      "normalYear": 1986,
       "history": [
         {
           "d": "2026-10-06",
@@ -238,9 +238,9 @@
       "name": "양파",
       "unit": "1kg",
       "price": 2124,
-      "prevWeek": 2050,
+      "prevWeek": 1893,
       "prevMonth": 2307,
-      "normalYear": 1954,
+      "normalYear": 1942,
       "history": [
         {
           "d": "2026-10-06",
@@ -353,9 +353,9 @@
       "name": "파",
       "unit": "1kg",
       "price": 3447,
-      "prevWeek": 3472,
+      "prevWeek": 3548,
       "prevMonth": 4779,
-      "normalYear": 5170,
+      "normalYear": 5168,
       "history": [
         {
           "d": "2026-10-06",
@@ -468,9 +468,9 @@
       "name": "시금치",
       "unit": "100g",
       "price": 878,
-      "prevWeek": 846,
+      "prevWeek": 839,
       "prevMonth": 1174,
-      "normalYear": 1070,
+      "normalYear": 1062,
       "history": [
         {
           "d": "2026-10-06",
@@ -583,9 +583,9 @@
       "name": "호박",
       "unit": "1개",
       "price": 1804,
-      "prevWeek": 1551,
+      "prevWeek": 1592,
       "prevMonth": 1403,
-      "normalYear": 1893,
+      "normalYear": 1852,
       "history": [
         {
           "d": "2026-10-06",
@@ -698,9 +698,9 @@
       "name": "오이",
       "unit": "10개",
       "price": 10153,
-      "prevWeek": 8972,
+      "prevWeek": 9149,
       "prevMonth": 7541,
-      "normalYear": 12949,
+      "normalYear": 12891,
       "history": [
         {
           "d": "2026-10-06",
@@ -813,9 +813,9 @@
       "name": "상추",
       "unit": "100g",
       "price": 1059,
-      "prevWeek": 1020,
+      "prevWeek": 1019,
       "prevMonth": 1053,
-      "normalYear": 1468,
+      "normalYear": 1435,
       "history": [
         {
           "d": "2026-10-06",
@@ -928,9 +928,9 @@
       "name": "깐마늘(국산)",
       "unit": "1kg",
       "price": 11033,
-      "prevWeek": 10628,
+      "prevWeek": 10613,
       "prevMonth": 10172,
-      "normalYear": 8606,
+      "normalYear": 8526,
       "history": [
         {
           "d": "2026-10-06",
@@ -1043,9 +1043,9 @@
       "name": "감자",
       "unit": "100g",
       "price": 328,
-      "prevWeek": 327,
+      "prevWeek": 329,
       "prevMonth": 334,
-      "normalYear": 332,
+      "normalYear": 333,
       "history": [
         {
           "d": "2026-10-06",
@@ -1158,9 +1158,9 @@
       "name": "고구마",
       "unit": "1kg",
       "price": 4270,
-      "prevWeek": 3819,
+      "prevWeek": 3871,
       "prevMonth": 4547,
-      "normalYear": 4754,
+      "normalYear": 4788,
       "history": [
         {
           "d": "2026-10-06",
@@ -1273,9 +1273,9 @@
       "name": "사과",
       "unit": "10개",
       "price": 18484,
-      "prevWeek": 18305,
+      "prevWeek": 18111,
       "prevMonth": 20313,
-      "normalYear": 22990,
+      "normalYear": 23008,
       "history": [
         {
           "d": "2026-10-06",
@@ -1388,9 +1388,9 @@
       "name": "배",
       "unit": "10개",
       "price": 22016,
-      "prevWeek": 22162,
+      "prevWeek": 21980,
       "prevMonth": 28140,
-      "normalYear": 25841,
+      "normalYear": 25903,
       "history": [
         {
           "d": "2026-10-06",
@@ -1503,9 +1503,9 @@
       "name": "바나나",
       "unit": "100g",
       "price": 281,
-      "prevWeek": 289,
+      "prevWeek": 285,
       "prevMonth": 319,
-      "normalYear": 296,
+      "normalYear": 294,
       "history": [
         {
           "d": "2026-10-06",
@@ -1620,7 +1620,7 @@
       "price": 4942,
       "prevWeek": 4884,
       "prevMonth": 5007,
-      "normalYear": 5218,
+      "normalYear": 5202,
       "history": [
         {
           "d": "2026-10-06",
@@ -1733,9 +1733,9 @@
       "name": "콩나물",
       "unit": "1봉",
       "price": 2487,
-      "prevWeek": 2473,
+      "prevWeek": 2474,
       "prevMonth": 2502,
-      "normalYear": 2441,
+      "normalYear": 2438,
       "history": [
         {
           "d": "2026-10-06",
