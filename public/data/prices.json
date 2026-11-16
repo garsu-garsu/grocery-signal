@@ -8,14 +8,10 @@
       "name": "배추",
       "unit": "1포기",
       "price": 2469,
-      "prevWeek": 2823,
-      "prevMonth": 6256,
-      "normalYear": 3177,
+      "prevWeek": 2749,
+      "prevMonth": 6213,
+      "normalYear": 3126,
       "history": [
-        {
-          "d": "2026-10-06",
-          "p": 6256
-        },
         {
           "d": "2026-10-07",
           "p": 6213
@@ -131,14 +127,10 @@
       "name": "무",
       "unit": "1개",
       "price": 1786,
-      "prevWeek": 1896,
-      "prevMonth": 2665,
-      "normalYear": 1974,
+      "prevWeek": 1839,
+      "prevMonth": 2687,
+      "normalYear": 1952,
       "history": [
-        {
-          "d": "2026-10-06",
-          "p": 2665
-        },
         {
           "d": "2026-10-07",
           "p": 2687
@@ -254,14 +246,10 @@
       "name": "양파",
       "unit": "1kg",
       "price": 1946,
-      "prevWeek": 1893,
-      "prevMonth": 2307,
-      "normalYear": 1929,
+      "prevWeek": 1969,
+      "prevMonth": 2359,
+      "normalYear": 1933,
       "history": [
-        {
-          "d": "2026-10-06",
-          "p": 2307
-        },
         {
           "d": "2026-10-07",
           "p": 2359
@@ -377,14 +365,10 @@
       "name": "파",
       "unit": "1kg",
       "price": 3072,
-      "prevWeek": 3548,
-      "prevMonth": 4779,
-      "normalYear": 5172,
+      "prevWeek": 3651,
+      "prevMonth": 4591,
+      "normalYear": 5187,
       "history": [
-        {
-          "d": "2026-10-06",
-          "p": 4779
-        },
         {
           "d": "2026-10-07",
           "p": 4591
@@ -500,14 +484,10 @@
       "name": "시금치",
       "unit": "100g",
       "price": 979,
-      "prevWeek": 839,
-      "prevMonth": 1174,
-      "normalYear": 1041,
+      "prevWeek": 872,
+      "prevMonth": 1096,
+      "normalYear": 1038,
       "history": [
-        {
-          "d": "2026-10-06",
-          "p": 1174
-        },
         {
           "d": "2026-10-07",
           "p": 1096
@@ -623,14 +603,10 @@
       "name": "호박",
       "unit": "1개",
       "price": 1918,
-      "prevWeek": 1592,
-      "prevMonth": 1403,
-      "normalYear": 1798,
+      "prevWeek": 1706,
+      "prevMonth": 1343,
+      "normalYear": 1781,
       "history": [
-        {
-          "d": "2026-10-06",
-          "p": 1403
-        },
         {
           "d": "2026-10-07",
           "p": 1343
@@ -746,14 +722,10 @@
       "name": "오이",
       "unit": "10개",
       "price": 12671,
-      "prevWeek": 9149,
-      "prevMonth": 7541,
-      "normalYear": 13014,
+      "prevWeek": 9651,
+      "prevMonth": 7320,
+      "normalYear": 13057,
       "history": [
-        {
-          "d": "2026-10-06",
-          "p": 7541
-        },
         {
           "d": "2026-10-07",
           "p": 7320
@@ -869,14 +841,10 @@
       "name": "상추",
       "unit": "100g",
       "price": 1231,
-      "prevWeek": 1019,
-      "prevMonth": 1053,
-      "normalYear": 1380,
+      "prevWeek": 1049,
+      "prevMonth": 1009,
+      "normalYear": 1367,
       "history": [
-        {
-          "d": "2026-10-06",
-          "p": 1053
-        },
         {
           "d": "2026-10-07",
           "p": 1009
@@ -992,14 +960,10 @@
       "name": "깐마늘(국산)",
       "unit": "1kg",
       "price": 9683,
-      "prevWeek": 10613,
-      "prevMonth": 10172,
-      "normalYear": 8432,
+      "prevWeek": 10961,
+      "prevMonth": 10284,
+      "normalYear": 8415,
       "history": [
-        {
-          "d": "2026-10-06",
-          "p": 10172
-        },
         {
           "d": "2026-10-07",
           "p": 10284
@@ -1116,13 +1080,9 @@
       "unit": "100g",
       "price": 334,
       "prevWeek": 329,
-      "prevMonth": 334,
-      "normalYear": 335,
+      "prevMonth": 335,
+      "normalYear": 337,
       "history": [
-        {
-          "d": "2026-10-06",
-          "p": 334
-        },
         {
           "d": "2026-10-07",
           "p": 335
@@ -1238,14 +1198,10 @@
       "name": "고구마",
       "unit": "1kg",
       "price": 4686,
-      "prevWeek": 3871,
-      "prevMonth": 4547,
-      "normalYear": 4839,
+      "prevWeek": 4053,
+      "prevMonth": 4509,
+      "normalYear": 4847,
       "history": [
-        {
-          "d": "2026-10-06",
-          "p": 4547
-        },
         {
           "d": "2026-10-07",
           "p": 4509
@@ -1361,14 +1317,10 @@
       "name": "사과",
       "unit": "10개",
       "price": 17850,
-      "prevWeek": 18111,
-      "prevMonth": 20313,
-      "normalYear": 22874,
+      "prevWeek": 18248,
+      "prevMonth": 19959,
+      "normalYear": 22855,
       "history": [
-        {
-          "d": "2026-10-06",
-          "p": 20313
-        },
         {
           "d": "2026-10-07",
           "p": 19959
@@ -1484,14 +1436,10 @@
       "name": "배",
       "unit": "10개",
       "price": 22048,
-      "prevWeek": 21980,
-      "prevMonth": 28140,
-      "normalYear": 26058,
+      "prevWeek": 22101,
+      "prevMonth": 27774,
+      "normalYear": 25878,
       "history": [
-        {
-          "d": "2026-10-06",
-          "p": 28140
-        },
         {
           "d": "2026-10-07",
           "p": 27774
@@ -1607,14 +1555,10 @@
       "name": "바나나",
       "unit": "100g",
       "price": 272,
-      "prevWeek": 285,
-      "prevMonth": 319,
+      "prevWeek": 278,
+      "prevMonth": 318,
       "normalYear": 294,
       "history": [
-        {
-          "d": "2026-10-06",
-          "p": 319
-        },
         {
           "d": "2026-10-07",
           "p": 318
@@ -1731,13 +1675,9 @@
       "unit": "1개",
       "price": 4933,
       "prevWeek": 4884,
-      "prevMonth": 5007,
-      "normalYear": 5192,
+      "prevMonth": 4993,
+      "normalYear": 5201,
       "history": [
-        {
-          "d": "2026-10-06",
-          "p": 5007
-        },
         {
           "d": "2026-10-07",
           "p": 4993
@@ -1854,13 +1794,9 @@
       "unit": "1봉",
       "price": 2410,
       "prevWeek": 2474,
-      "prevMonth": 2502,
-      "normalYear": 2436,
+      "prevMonth": 2450,
+      "normalYear": 2438,
       "history": [
-        {
-          "d": "2026-10-06",
-          "p": 2502
-        },
         {
           "d": "2026-10-07",
           "p": 2450
